@@ -5,6 +5,5 @@ public record DoctorDTO(
         String name,
         String speciality,
         String email,
-        String password,
         boolean isAdmin
 ) {}
