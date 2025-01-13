@@ -7,9 +7,6 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Copiar el wallet
-COPY wallet /wallet
-
 # Empaquetar la aplicación
 RUN mvn clean package -DskipTests
 
@@ -19,10 +16,9 @@ RUN mv target/*.jar target/app.jar
 # Exponer puerto (ajustar según el servicio)
 EXPOSE 8084
 
-# Establecer la variable de entorno para el wallet
-ENV TNS_ADMIN=/wallet
 # Variables de entorno por defecto para las APIs
 ENV API_DOCTORS_URL=http://doctors-service:8081
 ENV API_PATIENT_URL=http://patient-service:8082
+ENV API_MEASUREMENT_URL=http://patient-service:8085
 # Comando para ejecutar la aplicación
 CMD ["java", "-jar", "target/app.jar"]
