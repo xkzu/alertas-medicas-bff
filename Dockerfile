@@ -1,24 +1,24 @@
-# Dockerfile para servicios Java
-FROM maven:3.9.6-amazoncorretto-21
-
+# Build stage
+FROM maven:3.9.6-amazoncorretto-21 AS builder
 WORKDIR /app
 
-# Copiar el pom.xml y los archivos fuente
+# Cache dependencies
 COPY pom.xml .
-COPY src ./src
+RUN mvn dependency:go-offline
 
-# Empaquetar la aplicación
+# Build app
+COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Encontrar el jar generado y moverlo a un nombre conocido
-RUN mv target/*.jar target/app.jar
+# Run stage
+FROM amazoncorretto:21-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 
-# Exponer puerto (ajustar según el servicio)
+# Configuración de la aplicación
 EXPOSE 8084
+ENV API_DOCTORS_URL=http://doctor:8081 \
+    API_PATIENT_URL=http://patient:8082 \
+    API_MEASUREMENT_URL=http://measurement:8085
 
-# Variables de entorno por defecto para las APIs
-ENV API_DOCTORS_URL=http://doctors-service:8081
-ENV API_PATIENT_URL=http://patient-service:8082
-ENV API_MEASUREMENT_URL=http://patient-service:8085
-# Comando para ejecutar la aplicación
-CMD ["java", "-jar", "target/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
