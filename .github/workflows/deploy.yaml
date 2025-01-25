@@ -55,14 +55,14 @@ jobs:
           port: 22
           script: |
             TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
-            docker pull $DOCKER_IMAGE_NAME:$TAG
+            sudo docker pull $DOCKER_IMAGE_NAME:$TAG
 
             # Detener y eliminar el contenedor actual (si existe)
-            docker stop bff || true
-            docker rm bff || true
+            sudo docker stop bff || true
+            sudo docker rm bff || true
 
             # Correr el contenedor con las variables de entorno
-            docker run -d --name bff \
+            sudo docker run -d --name bff \
               -p 8084:8084 \
               --env cors.allowed-origins=${{ secrets.CORS_ALLOWED_ORIGINS }} \
               --env server.port=8084 \
