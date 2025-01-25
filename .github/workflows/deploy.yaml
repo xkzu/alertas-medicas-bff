@@ -47,7 +47,7 @@ jobs:
 
       # 5. Despliegue en el servidor AWS
       - name: Deploy to AWS Server
-        uses: appleboy/ssh-action@v0.1.11
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.AWS_SERVER_IP }}
           username: ${{ secrets.AWS_SERVER_USER }}
