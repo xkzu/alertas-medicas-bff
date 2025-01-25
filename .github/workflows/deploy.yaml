@@ -37,7 +37,7 @@ jobs:
             --build-arg API_PATIENT_URL=http://patient:8082 \
             --build-arg API_MEASUREMENT_URL=http://measurement:8085 \
             --tag $DOCKER_IMAGE_NAME:$TAG \
-            ./alertas-medicas-bff
+            .
 
       # 4. Subir la imagen a Docker Hub
       - name: Push Docker image
