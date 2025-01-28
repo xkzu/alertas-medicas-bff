@@ -54,6 +54,9 @@ jobs:
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            echo "DOCKER_IMAGE_NAME: $DOCKER_IMAGE_NAME"
+            echo "TAG: $TAG"
+
             TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
             sudo docker pull $DOCKER_IMAGE_NAME:$TAG
 
