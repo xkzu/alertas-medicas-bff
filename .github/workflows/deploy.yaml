@@ -31,7 +31,7 @@ jobs:
       - name: Build Docker image
         run: |
           TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
-          sudo docker build \
+          docker build \
             --file ./Dockerfile \
             --build-arg API_DOCTORS_URL=http://doctor:8081 \
             --build-arg API_PATIENT_URL=http://patient:8082 \
@@ -43,7 +43,7 @@ jobs:
       - name: Push Docker image
         run: |
           TAG=$(echo $GITHUB_REF | sed 's/refs\/tags\///')
-          sudo docker push $DOCKER_IMAGE_NAME:$TAG
+          docker push $DOCKER_IMAGE_NAME:$TAG
 
       # 5. Despliegue en el servidor AWS
       - name: Deploy to AWS Server
