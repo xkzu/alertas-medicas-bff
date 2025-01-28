@@ -7,7 +7,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOCKER_IMAGE_NAME: mydockeruser/cloudnative.bff # Cambia esto según tu configuración
+  DOCKER_IMAGE_NAME: ecodisonante/cloudnative.bff
 
 jobs:
   build-and-deploy:
