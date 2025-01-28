@@ -58,8 +58,13 @@ jobs:
             sudo docker pull $DOCKER_IMAGE_NAME:$TAG
 
             # Detener y eliminar el contenedor actual (si existe)
-            sudo docker stop bff || true
-            sudo docker rm bff || true
+            if [ $(docker ps -a -q -f name=bff) ]; then
+              echo "Deteniendo y eliminando el contenedor existente 'bff'..."
+              docker stop bff
+              docker rm bff
+            else
+              echo "El contenedor 'bff' no existe, continuando..."
+            fi
 
             # Correr el contenedor con las variables de entorno
             sudo docker run -d --name bff \
