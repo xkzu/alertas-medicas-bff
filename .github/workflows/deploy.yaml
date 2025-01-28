@@ -58,10 +58,10 @@ jobs:
             sudo docker pull $DOCKER_IMAGE_NAME:$TAG
 
             # Detener y eliminar el contenedor actual (si existe)
-            if [ $(docker ps -a -q -f name=bff) ]; then
+            if [ $(sudo docker ps -a -q -f name=bff) ]; then
               echo "Deteniendo y eliminando el contenedor existente 'bff'..."
-              docker stop bff
-              docker rm bff
+              sudo docker stop bff
+              sudo docker rm bff
             else
               echo "El contenedor 'bff' no existe, continuando..."
             fi
