@@ -71,6 +71,15 @@ jobs:
               echo "El contenedor 'bff' no existe, continuando..."
             fi
 
+            # Debugging environment variables before running the container
+            echo "cors.allowed-origins=${{ secrets.CORS_ALLOWED_ORIGINS }}"
+            echo "server.port=8084"
+            echo "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${{ secrets.JWK_SET_URI }}"
+            echo "spring.application.name=bff"
+            echo "api.doctors=http://doctor-service:8081"
+            echo "api.patient=http://paciente-service:8082"
+            echo "api.measurement=http://signos-service:8083"
+
             # Ejecutar el nuevo contenedor
             sudo docker run -d --name bff \
               -p 8084:8084 \
