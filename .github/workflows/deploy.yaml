@@ -55,6 +55,7 @@ jobs:
           username: ${{ secrets.AWS_SERVER_USER }}
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           port: 22
+          envs: DOCKER_IMAGE_NAME,TAG
           script: |
             echo "DOCKER_IMAGE_NAME: $DOCKER_IMAGE_NAME"
             echo "TAG: $TAG"
