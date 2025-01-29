@@ -56,11 +56,11 @@ jobs:
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            echo "DOCKER_IMAGE_NAME: ecodisonante/cloudnative.bff"
-            echo "TAG: v0.0.7"
+            echo "DOCKER_IMAGE_NAME: $DOCKER_IMAGE_NAME"
+            echo "TAG: $TAG"
 
             # Descargar la imagen
-            sudo docker pull ecodisonante/cloudnative.bff:v0.0.7
+            sudo docker pull $DOCKER_IMAGE_NAME:$TAG
 
             # Detener y eliminar el contenedor existente si existe
             if [ $(sudo docker ps -a -q -f name=bff) ]; then
@@ -70,6 +70,15 @@ jobs:
             else
               echo "El contenedor 'bff' no existe, continuando..."
             fi
+
+            # Debugging environment variables before running the container
+            echo "cors.allowed-origins=${{ secrets.CORS_ALLOWED_ORIGINS }}"
+            echo "server.port=8084"
+            echo "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${{ secrets.JWK_SET_URI }}"
+            echo "spring.application.name=bff"
+            echo "api.doctors=http://doctor-service:8081"
+            echo "api.patient=http://paciente-service:8082"
+            echo "api.measurement=http://signos-service:8083"
 
             # Ejecutar el nuevo contenedor
             sudo docker run -d --name bff \
@@ -81,4 +90,4 @@ jobs:
               --env "api.doctors=http://doctor-service:8081" \
               --env "api.patient=http://paciente-service:8082" \
               --env "api.measurement=http://signos-service:8083" \
-              "ecodisonante/cloudnative.bff:v0.0.7
+              "$DOCKER_IMAGE_NAME:$TAG"
